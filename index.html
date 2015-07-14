@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Flexible Height</title>
+		<style>
+			.test {
+				border: 1px solid #ccc;
+				float: left;
+				margin-right: 1em;
+				padding: 0 1em;
+			}
+
+			.test:last-child {
+				margin-right: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="test">
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+		</div>
+		<div class="test">
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+		</div>
+		<div class="test">
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+			<p>Lorem ipsum blah blah blah</p>
+		</div>
+
+		<script>
+			(function () {
+				var NormalizeHeight = function (selector) {
+					if (!selector) {
+						throw new Error("You must pass a selector to the constructor. Example: `new NormalizeHeight('.selector').setMaxHeight();`");
+					}
+
+					this.selectors = document.querySelectorAll(selector);
+				};
+
+				NormalizeHeight.prototype = {
+					getHeights: function (sel) {
+						var sel = sel || this.selectors,
+							len = sel.length,
+							i = 0,
+							heights = [];
+
+						for (i; i < len; i++) {
+							heights.push(this.selectors[i].clientHeight);
+						}
+
+						return heights;
+					},
+
+					getMaxHeight: function (heights) {
+						return Math.max.apply(null, heights);
+					},
+			
+					setMaxHeight: function () {
+						var maxHeight = this.getMaxHeight(this.getHeights(this.selectors)),
+							len = this.selectors.length,
+							i = 0;
+
+						for (i; i < len; i++) {
+							this.selectors[i].style.height = maxHeight + 'px';
+						}
+
+						return this;
+					}
+				};
+
+				new NormalizeHeight('.test').setMaxHeight();
+			}());
+		</script>
+	</body>
+</html>
